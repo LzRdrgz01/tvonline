@@ -333,18 +333,18 @@
       }
     }
 
-    // Mostrar favoritos en menÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº lateral
+
     function mostrarFavoritos() {
       const favoritos = obtenerFavoritos();
       favoritosLateral.innerHTML = '';
 
       if (favoritos.length === 0) {
-        favoritosLateral.innerHTML = '<p class="text-gray-400">No tienes canales favoritos aÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂºn.</p>';
+        favoritosLateral.innerHTML = '<p class="text-gray-400">No tienes canales favoritos aun.</p>';
         return;
       }
 
       favoritos.forEach(fav => {
-        // Crear div similar a canal pero mÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡s pequeÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ±o y simple
+        
         const div = document.createElement('div');
         div.className = 'flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]';
         div.title = fav.title;
@@ -364,13 +364,13 @@
         div.addEventListener('click', () => {
           // Cambiar video al canal favorito
           canales.forEach(c => c.classList.remove('canal-activo'));
-          // Buscar el canal en lista que coincida con el tÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­tulo
+
           const canalMatch = canales.find(c => c.getAttribute('data-title') === fav.title);
           if (canalMatch) {
             canalMatch.classList.add('canal-activo');
             player.src = canalMatch.getAttribute('data-src');
           }
-          // Cerrar menÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº
+         
           body.classList.remove('menu-abierto');
           actualizarIconoMenu(false);
         });
@@ -379,7 +379,7 @@
       });
     }
 
-    // Actualizar botÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n favorito y lista favoritos al cargar y al cambiar
+
     function sincronizarFavoritos() {
       const favoritos = obtenerFavoritos();
 
@@ -394,7 +394,6 @@
       mostrarFavoritos();
     }
 
-    // Manejo de click en botÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n favorito
     canales.forEach(canal => {
       const botonFav = canal.querySelector('.btn-fav');
       if (!botonFav) return;
@@ -421,7 +420,6 @@
 
     sincronizarFavoritos();
 
-    // --- MenÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº lateral abrir/cerrar ---
 
     btnMenu.addEventListener('click', () => {
       const abierto = body.classList.toggle('menu-abierto');
