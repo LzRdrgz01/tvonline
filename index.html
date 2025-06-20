@@ -188,6 +188,18 @@
 
         <!--SUBIR ABAJO-->
 <!-- Canal agregado -->
+<div data-title="Canal 21" data-src="https://lzrdrgz01.github.io/web?player=jwpl&provider=rand&format=video%2Fmp4&link=https://mgvchannel21-ioriver-cdn.encoders.immergo.tv/master.m3u8" data-categorias="noticias" class="canal flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]">
+  <img class="w-12 h-12 rounded" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Canal-21.png" alt="Canal 21" />
+  <div class="flex flex-col text-white text-sm truncate">
+    <span class="truncate max-w-[140px]">Canal 21</span>
+    <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-[2px] rounded select-none w-max mt-1">EN VIVO</span>
+  </div>
+  <button class="btn-fav ml-auto text-yellow-400 hover:text-yellow-500 text-lg" title="Agregar/Quitar favorito">
+    <i class="far fa-star"></i>
+  </button>
+</div>
+
+<!-- Canal agregado -->
 <div data-title="Canal 3" data-src="https://lzrdrgz01.github.io/web?player=jwpl&provider=rand&format=video%2Fmp4&link=https://telecorporacion-es.cdn.vustreams.com/live/d3e259fa-736d-46b0-b1c9-71caf946ace9/live.isml/live.m3u8" data-categorias="entretenimiento,noticias" class="canal flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]">
   <img class="w-12 h-12 rounded" src="https://canal3impresionante.com/wp-content/uploads/2020/12/LOGO-CANAL-3-con-circulo-blanco-1-1024x868.png" alt="Canal 3" />
   <div class="flex flex-col text-white text-sm truncate">
@@ -245,7 +257,7 @@
     const favoritosLateral = document.getElementById('favoritos-lateral');
     const body = document.body;
 
-    // Ordenar alfabÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©ticamente
+    // Ordenar alfabÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©ticamente
     function ordenarCanales() {
       const ordenados = canales.sort((a, b) => {
         const tituloA = a.getAttribute('data-title').toLowerCase();
@@ -279,7 +291,7 @@
         canales.forEach(c => c.classList.remove('canal-activo'));
         canal.classList.add('canal-activo');
         player.src = canal.getAttribute('data-src');
-        // Si estÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ abierto menÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº, lo cerramos al seleccionar canal
+        // Si estÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ abierto menÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂº, lo cerramos al seleccionar canal
         body.classList.remove('menu-abierto');
         actualizarIconoMenu(false);
       });
@@ -305,7 +317,7 @@
       });
     });
 
-    // Al inicio, All estÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ activo
+    // Al inicio, All estÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡ activo
     btnAll.classList.add('bg-yellow-500');
 
     // --- Favoritos ---
