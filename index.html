@@ -31,7 +31,7 @@
       border-bottom: 1px solid #2a2f33;
     }
 
-    /* Ocultar scrollbar horizontal en el contenedor de categorÃÂ­as */
+    /* Ocultar scrollbar horizontal en el contenedor de categorÃÂÃÂ­as */
     #sticky-filters > div {
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none;  /* IE 10+ */
@@ -40,7 +40,7 @@
       display: none; /* Chrome, Safari y Opera */
     }
 
-    /* BotÃÂ³n menÃÂº lateral mejorado */
+    /* BotÃÂÃÂ³n menÃÂÃÂº lateral mejorado */
     #btn-menu {
       position: fixed;
       top: 1rem;
@@ -51,7 +51,7 @@
       color: white;
       width: 44px;
       height: 44px;
-      border-radius: 9999px; /* cÃÂ­rculo */
+      border-radius: 9999px; /* cÃÂÃÂ­rculo */
       cursor: pointer;
       font-weight: 600;
       box-shadow: 0 4px 8px rgba(0,0,0,0.6);
@@ -67,13 +67,13 @@
       color: black;
     }
 
-    /* Mover el botÃÂ³n a la derecha cuando el menÃÂº estÃÂ¡ abierto */
+    /* Mover el botÃÂÃÂ³n a la derecha cuando el menÃÂÃÂº estÃÂÃÂ¡ abierto */
     body.menu-abierto #btn-menu {
       transform: translateX(280px);
       pointer-events: auto;
     }
 
-    /* AnimaciÃÂ³n del ÃÂ­cono del botÃÂ³n menÃÂº */
+    /* AnimaciÃÂÃÂ³n del ÃÂÃÂ­cono del botÃÂÃÂ³n menÃÂÃÂº */
     #btn-menu i {
       transition: opacity 0.3s ease, transform 0.3s ease;
       position: absolute;
@@ -89,12 +89,12 @@
       transform: rotate(0deg);
     }
 
-    /* ÃÂcono X inicialmente invisible */
+    /* ÃÂÃÂcono X inicialmente invisible */
     #btn-menu i.fa-times {
       opacity: 0;
     }
 
-    /* MenÃÂº lateral con animaciÃÂ³n */
+    /* MenÃÂÃÂº lateral con animaciÃÂÃÂ³n */
     #menu-lateral {
       position: fixed;
       top: 0;
@@ -114,7 +114,7 @@
       left: 0;
     }
 
-    /* Fondo oscuro tras abrir menÃÂº */
+    /* Fondo oscuro tras abrir menÃÂÃÂº */
     #overlay-menu {
       position: fixed;
       top: 0;
@@ -132,20 +132,20 @@
   </style>
 </head>
 <body class="bg-[#1a1f23] min-h-screen">
-  <!-- BotÃÂ³n menÃÂº -->
-  <button id="btn-menu" aria-label="Abrir menÃÂº" title="Abrir menÃÂº">
+  <!-- BotÃÂÃÂ³n menÃÂÃÂº -->
+  <button id="btn-menu" aria-label="Abrir menÃÂÃÂº" title="Abrir menÃÂÃÂº">
     <i class="fas fa-bars"></i>
     <i class="fas fa-times"></i>
   </button>
 
-  <!-- Overlay para cerrar menÃÂº tocando fuera -->
+  <!-- Overlay para cerrar menÃÂÃÂº tocando fuera -->
   <div id="overlay-menu"></div>
 
-  <!-- MenÃÂº lateral -->
+  <!-- MenÃÂÃÂº lateral -->
   <div id="menu-lateral">
     <h2 class="text-white font-bold mb-4 text-lg">Tus Canales Favoritos</h2>
     <div id="favoritos-lateral" class="flex flex-col gap-3 overflow-y-auto max-h-[80vh]">
-      <!-- AquÃÂ­ se insertan los favoritos -->
+      <!-- AquÃÂÃÂ­ se insertan los favoritos -->
     </div>
   </div>
 
@@ -166,18 +166,18 @@
         <input type="text" id="buscar" placeholder="Buscar canal..." class="w-full p-2 rounded bg-[#0a0c0e] text-white text-sm border border-[#374151] focus:outline-none focus:ring-2 focus:ring-yellow-500" />
         <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin no-scrollbar mt-1">
 
-          <!-- BotÃÂ³n All -->
+          <!-- BotÃÂÃÂ³n All -->
           <button id="btnAll" class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600 whitespace-nowrap">
             All
           </button>
 
-          <!-- Botones de categorÃÂ­as -->
+          <!-- Botones de categorÃÂÃÂ­as -->
 		<button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="toons">Toons</button>
 		 <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="deportes">Deportes</button>
 		<button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="noticias">Noticias</button>
 	  <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="entretenimiento">Entretenimiento</button>
           <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="cine">Cine</button>
-     <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="musica">MÃÂºsica</button>
+     <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="musica">MÃÂÃÂºsica</button>
           <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="telenovelas">Telenovelas</button>
           
 
@@ -188,6 +188,15 @@
       <div id="canales" class="flex flex-col gap-3 p-4 scrollbar-thin">
 
         <!--SUBIR ABAJO-->
+<!-- Canal agregado -->
+<div data-title="Canal 6" data-src="https://lzrdrgz01.github.io/web?player=jwpl&provider=rand&format=video%2Fmp4&link=https://telecorporacion.cdn.vustreams.com/live/b164ebe7-decf-4a5a-8aea-5bb56fb92dfc/live.isml/live.m3u8" data-categorias="entretenimiento,noticias" class="canal flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]">
+  <img class="w-12 h-12 rounded" src="https://d21tucfpen3j82.cloudfront.net/wp-content/uploads/2024/11/22122120/Canal-6-1080x1080-1.jpg" alt="Canal 6" />
+  <div class="flex flex-col text-white text-sm truncate">
+    <span class="truncate max-w-[140px]">Canal 6</span>
+    <span class="bg-red-600 text-white text-[10px] font-bold px-2 py-[2px] rounded select-none w-max mt-1">EN VIVO</span>
+  </div>
+</div>
+
 <!-- Canal agregado -->
 <div data-title="Canal 3" data-src="https://lzrdrgz01.github.io/web?player=jwpl&provider=rand&format=video%2Fmp4&link=https://telecorporacion-es.cdn.vustreams.com/live/d3e259fa-736d-46b0-b1c9-71caf946ace9/live.isml/live.m3u8" data-categorias="entretenimiento,noticias" class="canal flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]">
   <img class="w-12 h-12 rounded" src="https://canal3impresionante.com/wp-content/uploads/2020/12/LOGO-CANAL-3-con-circulo-blanco-1-1024x868.png" alt="Canal 3" />
@@ -227,7 +236,7 @@
     const favoritosLateral = document.getElementById('favoritos-lateral');
     const body = document.body;
 
-    // Ordenar alfabÃÂ©ticamente
+    // Ordenar alfabÃÂÃÂ©ticamente
     function ordenarCanales() {
       const ordenados = canales.sort((a, b) => {
         const tituloA = a.getAttribute('data-title').toLowerCase();
@@ -261,7 +270,7 @@
         canales.forEach(c => c.classList.remove('canal-activo'));
         canal.classList.add('canal-activo');
         player.src = canal.getAttribute('data-src');
-        // Si estÃÂ¡ abierto menÃÂº, lo cerramos al seleccionar canal
+        // Si estÃÂÃÂ¡ abierto menÃÂÃÂº, lo cerramos al seleccionar canal
         body.classList.remove('menu-abierto');
         actualizarIconoMenu(false);
       });
@@ -287,7 +296,7 @@
       });
     });
 
-    // Al inicio, All estÃÂ¡ activo
+    // Al inicio, All estÃÂÃÂ¡ activo
     btnAll.classList.add('bg-yellow-500');
 
     // --- Favoritos ---
@@ -315,18 +324,18 @@
       }
     }
 
-    // Mostrar favoritos en menÃÂº lateral
+    // Mostrar favoritos en menÃÂÃÂº lateral
     function mostrarFavoritos() {
       const favoritos = obtenerFavoritos();
       favoritosLateral.innerHTML = '';
 
       if (favoritos.length === 0) {
-        favoritosLateral.innerHTML = '<p class="text-gray-400">No tienes canales favoritos aÃÂºn.</p>';
+        favoritosLateral.innerHTML = '<p class="text-gray-400">No tienes canales favoritos aÃÂÃÂºn.</p>';
         return;
       }
 
       favoritos.forEach(fav => {
-        // Crear div similar a canal pero mÃÂ¡s pequeÃÂ±o y simple
+        // Crear div similar a canal pero mÃÂÃÂ¡s pequeÃÂÃÂ±o y simple
         const div = document.createElement('div');
         div.className = 'flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]';
         div.title = fav.title;
@@ -346,13 +355,13 @@
         div.addEventListener('click', () => {
           // Cambiar video al canal favorito
           canales.forEach(c => c.classList.remove('canal-activo'));
-          // Buscar el canal en lista que coincida con el tÃÂ­tulo
+          // Buscar el canal en lista que coincida con el tÃÂÃÂ­tulo
           const canalMatch = canales.find(c => c.getAttribute('data-title') === fav.title);
           if (canalMatch) {
             canalMatch.classList.add('canal-activo');
             player.src = canalMatch.getAttribute('data-src');
           }
-          // Cerrar menÃÂº
+          // Cerrar menÃÂÃÂº
           body.classList.remove('menu-abierto');
           actualizarIconoMenu(false);
         });
@@ -361,7 +370,7 @@
       });
     }
 
-    // Actualizar botÃÂ³n favorito y lista favoritos al cargar y al cambiar
+    // Actualizar botÃÂÃÂ³n favorito y lista favoritos al cargar y al cambiar
     function sincronizarFavoritos() {
       const favoritos = obtenerFavoritos();
 
@@ -376,7 +385,7 @@
       mostrarFavoritos();
     }
 
-    // Manejo de click en botÃÂ³n favorito
+    // Manejo de click en botÃÂÃÂ³n favorito
     canales.forEach(canal => {
       const botonFav = canal.querySelector('.btn-fav');
       if (!botonFav) return;
@@ -403,7 +412,7 @@
 
     sincronizarFavoritos();
 
-    // --- MenÃÂº lateral abrir/cerrar ---
+    // --- MenÃÂÃÂº lateral abrir/cerrar ---
 
     btnMenu.addEventListener('click', () => {
       const abierto = body.classList.toggle('menu-abierto');
