@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TV en Vivo - LzPlay</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <style>
+    /* Scrollbar custom */
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #1f2937;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background-color: #374151;
+      border-radius: 3px;
+    }
+
+    .canal-activo {
+      border: 2px solid gold;
+    }
+
+    /* Sticky buscador + categorias */
+    #sticky-filters {
+      top: 0;
+      z-index: 20;
+      background-color: #1a1f23;
+      border-bottom: 1px solid #2a2f33;
+    }
+
+    /* Ocultar scrollbar horizontal en el contenedor de categorías */
+    #sticky-filters > div {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE 10+ */
+    }
+    #sticky-filters > div::-webkit-scrollbar {
+      display: none; /* Chrome, Safari y Opera */
+    }
+
+    /* Botón menú lateral mejorado */
+    #btn-menu {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background-color: #374151;
+      border: none;
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px; /* círculo */
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: background-color 0.2s, transform 0.3s;
+    }
+
+    #btn-menu:hover {
+      background-color: #fbbf24;
+      color: black;
+    }
+
+    /* Mover el botón a la derecha cuando el menú está abierto */
+    body.menu-abierto #btn-menu {
+      transform: translateX(280px);
+      pointer-events: auto;
+    }
+
+    /* Animación del ícono del botón menú */
+    #btn-menu i {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      position: absolute;
+    }
+
+    body.menu-abierto #btn-menu i.fa-bars {
+      opacity: 0;
+      transform: rotate(90deg);
+    }
+
+    body.menu-abierto #btn-menu i.fa-times {
+      opacity: 1;
+      transform: rotate(0deg);
+    }
+
+    /* Ícono X inicialmente invisible */
+    #btn-menu i.fa-times {
+      opacity: 0;
+    }
+
+    /* Menú lateral con animación */
+    #menu-lateral {
+      position: fixed;
+      top: 0;
+      left: -280px; /* oculto a la izquierda */
+      width: 280px;
+      height: 100vh;
+      background-color: #1a1f23;
+      border-right: 1px solid #2a2f33;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.7);
+      padding: 1rem;
+      overflow-y: auto;
+      transition: left 0.3s ease;
+      z-index: 90;
+    }
+
+    body.menu-abierto #menu-lateral {
+      left: 0;
+    }
+
+    /* Fondo oscuro tras abrir menú */
+    #overlay-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      z-index: 80;
+      display: none;
+    }
+
+    body.menu-abierto #overlay-menu {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-[#1a1f23] min-h-screen">
+  <!-- Botón menú -->
+  <button id="btn-menu" aria-label="Abrir menú" title="Abrir menú">
+    <i class="fas fa-bars"></i>
+    <i class="fas fa-times"></i>
+  </button>
+
+  <!-- Overlay para cerrar menú tocando fuera -->
+  <div id="overlay-menu"></div>
+
+  <!-- Menú lateral -->
+  <div id="menu-lateral">
+    <h2 class="text-white font-bold mb-4 text-lg">Tus Canales Favoritos</h2>
+    <div id="favoritos-lateral" class="flex flex-col gap-3 overflow-y-auto max-h-[80vh]">
+      <!-- Aquí se insertan los favoritos -->
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row h-screen">
+
+    <!-- Reproductor -->
+    <div class="w-full md:flex-1 bg-black flex items-center justify-center p-2">
+      <div class="w-full h-[240px] sm:h-[300px] md:h-[400px] md:h-full rounded-lg overflow-hidden shadow-lg">
+        <iframe id="player" class="w-full h-full" src="https://ok.ru/videoembed/4377211625812" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+      </div>
+    </div>
+
+    <!-- Panel de canales -->
+    <div class="w-full md:w-[300px] bg-[#1a1f23] border-t md:border-t-0 md:border-l border-[#2a2f33] overflow-y-auto max-h-[360px] md:max-h-full">
+
+      <!-- Sticky buscador + categorias -->
+      <div id="sticky-filters" class="sticky flex flex-col gap-1 px-4 py-3">
+        <input type="text" id="buscar" placeholder="Buscar canal..." class="w-full p-2 rounded bg-[#0a0c0e] text-white text-sm border border-[#374151] focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+        <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin no-scrollbar mt-1">
+
+          <!-- Botón All -->
+          <button id="btnAll" class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600 whitespace-nowrap">
+            All
+          </button>
+
+          <!-- Botones de categorías -->
+          <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="cine">Cine</button>
+          <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="deportes">Deportes</button>
+          <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="musica">Música</button>
+          <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="telenovelas">Telenovelas</button>
+          <button class="btn-categoria text-[#d1d5db] font-semibold text-sm px-3 py-1 rounded bg-[#374151] hover:bg-yellow-500 whitespace-nowrap" data-categoria="noticias">Noticias</button>
+
+        </div>
+      </div>
+
+      <!-- Lista de canales -->
+      <div id="canales" class="flex flex-col gap-3 p-4 scrollbar-thin">
+
+        <!--SUBIR ABAJO-->
+        
+		
+		
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canalesContainer = document.getElementById('canales');
+    const canales = Array.from(document.querySelectorAll('.canal'));
+    const player = document.getElementById('player');
+    const buscador = document.getElementById('buscar');
+    const btnAll = document.getElementById('btnAll');
+    const btnCategorias = document.querySelectorAll('.btn-categoria');
+    const btnMenu = document.getElementById('btn-menu');
+    const menuLateral = document.getElementById('menu-lateral');
+    const overlayMenu = document.getElementById('overlay-menu');
+    const favoritosLateral = document.getElementById('favoritos-lateral');
+    const body = document.body;
+
+    // Ordenar alfabéticamente
+    function ordenarCanales() {
+      const ordenados = canales.sort((a, b) => {
+        const tituloA = a.getAttribute('data-title').toLowerCase();
+        const tituloB = b.getAttribute('data-title').toLowerCase();
+        return tituloA.localeCompare(tituloB);
+      });
+      canalesContainer.innerHTML = '';
+      ordenados.forEach(canal => canalesContainer.appendChild(canal));
+    }
+
+    ordenarCanales();
+
+    let filtroCategoria = null;
+
+    function aplicarFiltros() {
+      const textoFiltro = buscador.value.toLowerCase();
+
+      canales.forEach(canal => {
+        const titulo = canal.getAttribute('data-title').toLowerCase();
+        const categorias = canal.getAttribute('data-categorias').toLowerCase().split(',');
+
+        const pasaTexto = titulo.includes(textoFiltro);
+        const pasaCategoria = !filtroCategoria || categorias.includes(filtroCategoria);
+
+        canal.style.display = pasaTexto && pasaCategoria ? 'flex' : 'none';
+      });
+    }
+
+    canales.forEach(canal => {
+      canal.addEventListener('click', () => {
+        canales.forEach(c => c.classList.remove('canal-activo'));
+        canal.classList.add('canal-activo');
+        player.src = canal.getAttribute('data-src');
+        // Si está abierto menú, lo cerramos al seleccionar canal
+        body.classList.remove('menu-abierto');
+        actualizarIconoMenu(false);
+      });
+    });
+
+    buscador.addEventListener('input', aplicarFiltros);
+
+    btnAll.addEventListener('click', () => {
+      filtroCategoria = null;
+      btnCategorias.forEach(b => b.classList.remove('bg-yellow-500'));
+      btnAll.classList.add('bg-yellow-500');
+      aplicarFiltros();
+    });
+
+    btnCategorias.forEach(boton => {
+      boton.addEventListener('click', () => {
+        if (boton.id === 'btnAll') return;
+        filtroCategoria = boton.getAttribute('data-categoria').toLowerCase();
+        btnCategorias.forEach(b => b.classList.remove('bg-yellow-500'));
+        btnAll.classList.remove('bg-yellow-500');
+        boton.classList.add('bg-yellow-500');
+        aplicarFiltros();
+      });
+    });
+
+    // Al inicio, All está activo
+    btnAll.classList.add('bg-yellow-500');
+
+    // --- Favoritos ---
+
+    // Leer favoritos desde localStorage
+    function obtenerFavoritos() {
+      return JSON.parse(localStorage.getItem('favoritosCanales') || '[]');
+    }
+
+    // Guardar favoritos en localStorage
+    function guardarFavoritos(favoritos) {
+      localStorage.setItem('favoritosCanales', JSON.stringify(favoritos));
+    }
+
+    // Actualizar icono estrella en lista de canales
+    function actualizarIconoFavorito(canalDiv, esFavorito) {
+      const botonFav = canalDiv.querySelector('.btn-fav i');
+      if (!botonFav) return;
+      if (esFavorito) {
+        botonFav.classList.remove('far');
+        botonFav.classList.add('fas');
+      } else {
+        botonFav.classList.remove('fas');
+        botonFav.classList.add('far');
+      }
+    }
+
+    // Mostrar favoritos en menú lateral
+    function mostrarFavoritos() {
+      const favoritos = obtenerFavoritos();
+      favoritosLateral.innerHTML = '';
+
+      if (favoritos.length === 0) {
+        favoritosLateral.innerHTML = '<p class="text-gray-400">No tienes canales favoritos aún.</p>';
+        return;
+      }
+
+      favoritos.forEach(fav => {
+        // Crear div similar a canal pero más pequeño y simple
+        const div = document.createElement('div');
+        div.className = 'flex items-center gap-3 bg-[#0a0c0e] rounded-md p-2 cursor-pointer hover:bg-[#111417]';
+        div.title = fav.title;
+
+        const img = document.createElement('img');
+        img.src = fav.img;
+        img.alt = fav.title;
+        img.className = 'w-10 h-10 rounded';
+
+        const span = document.createElement('span');
+        span.textContent = fav.title;
+        span.className = 'text-white text-sm truncate';
+
+        div.appendChild(img);
+        div.appendChild(span);
+
+        div.addEventListener('click', () => {
+          // Cambiar video al canal favorito
+          canales.forEach(c => c.classList.remove('canal-activo'));
+          // Buscar el canal en lista que coincida con el título
+          const canalMatch = canales.find(c => c.getAttribute('data-title') === fav.title);
+          if (canalMatch) {
+            canalMatch.classList.add('canal-activo');
+            player.src = canalMatch.getAttribute('data-src');
+          }
+          // Cerrar menú
+          body.classList.remove('menu-abierto');
+          actualizarIconoMenu(false);
+        });
+
+        favoritosLateral.appendChild(div);
+      });
+    }
+
+    // Actualizar botón favorito y lista favoritos al cargar y al cambiar
+    function sincronizarFavoritos() {
+      const favoritos = obtenerFavoritos();
+
+      canales.forEach(canal => {
+        const titulo = canal.getAttribute('data-title');
+        const img = canal.querySelector('img').src;
+        const esFavorito = favoritos.some(fav => fav.title === titulo);
+
+        actualizarIconoFavorito(canal, esFavorito);
+      });
+
+      mostrarFavoritos();
+    }
+
+    // Manejo de click en botón favorito
+    canales.forEach(canal => {
+      const botonFav = canal.querySelector('.btn-fav');
+      if (!botonFav) return;
+      botonFav.addEventListener('click', (e) => {
+        e.stopPropagation(); // evitar activar click en canal
+        const titulo = canal.getAttribute('data-title');
+        const img = canal.querySelector('img').src;
+        let favoritos = obtenerFavoritos();
+
+        const index = favoritos.findIndex(fav => fav.title === titulo);
+        if (index > -1) {
+          // Ya es favorito, lo quitamos
+          favoritos.splice(index, 1);
+          actualizarIconoFavorito(canal, false);
+        } else {
+          // No es favorito, lo agregamos
+          favoritos.push({ title: titulo, img });
+          actualizarIconoFavorito(canal, true);
+        }
+        guardarFavoritos(favoritos);
+        mostrarFavoritos();
+      });
+    });
+
+    sincronizarFavoritos();
+
+    // --- Menú lateral abrir/cerrar ---
+
+    btnMenu.addEventListener('click', () => {
+      const abierto = body.classList.toggle('menu-abierto');
+      actualizarIconoMenu(abierto);
+    });
+
+    overlayMenu.addEventListener('click', () => {
+      body.classList.remove('menu-abierto');
+      actualizarIconoMenu(false);
+    });
+
+    function actualizarIconoMenu(abierto) {
+      const iconBars = btnMenu.querySelector('i.fa-bars');
+      const iconTimes = btnMenu.querySelector('i.fa-times');
+      if (abierto) {
+        iconBars.style.opacity = '0';
+        iconTimes.style.opacity = '1';
+      } else {
+        iconBars.style.opacity = '1';
+        iconTimes.style.opacity = '0';
+      }
+    }
+
+    // Estado inicial icono menu
+    actualizarIconoMenu(false);
+  </script>
+</body>
+</html>
