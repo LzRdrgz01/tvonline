@@ -127,15 +127,49 @@
     body.menu-abierto #overlay-menu {
       display: block;
     }
+
+	  #btn-home {
+  position: fixed;
+  top: 5rem; /* un poco más abajo del botón de menú */
+  left: 1rem;
+  z-index: 99;
+  background-color: #374151;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.3s;
+}
+
+#btn-home:hover {
+  background-color: #fbbf24;
+  color: black;
+}
+
+/* Desplazar el botón cuando el menú esté abierto */
+body.menu-abierto #btn-home {
+  transform: translateX(280px);
+}
+
   </style>
 </head>
 <body class="bg-[#1a1f23] min-h-screen">
 
-  <button id="btn-menu" aria-label="Abrir menu" title="Abrir menu">
-    <i class="fas fa-bars"></i>
+   <button id="btn-menu" aria-label="Abrir menu" title="Abrir menu">
+    <i class="fas fa-heart"></i>
     <i class="fas fa-times"></i>
   </button>
 
+<a href="https://zinecia.github.io/Home/" id="btn-home" aria-label="Inicio" title="Inicio">
+  <i class="fas fa-home"></i>
+</a>
 
   <div id="overlay-menu"></div>
 
